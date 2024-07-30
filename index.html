@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product Order List</title>
+<style>
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+</style>
+</head>
+<body>
+
+<h2>Product Order List</h2>
+
+<table>
+  <tr>
+    <th>Product Name</th>
+    <th>Quantity</th>
+    <th></th>
+  </tr>
+  <tr>
+    <td>Pencil</td>
+    <td><input type="number" id="pencilQty" value="5"></td>
+    <td><button onclick="addProduct('Pencil', document.getElementById('pencilQty').value)">ADD</button></td>
+  </tr>
+  <tr>
+    <td>Eraser</td>
+    <td><input type="number" id="eraserQty" value="4"></td>
+    <td><button onclick="addProduct('Eraser', document.getElementById('eraserQty').value)">ADD</button></td>
+  </tr>
+  <tr>
+    <td>Pens</td>
+    <td><input type="number" id="pensQty" value="3"></td>
+    <td><button onclick="addProduct('Pens', document.getElementById('pensQty').value)">ADD</button></td>
+  </tr>
+</table>
+
+<br>
+
+<button onclick="showOrder()">Show Order</button>
+
+<br><br>
+
+<div id="orderDisplay"></div>
+
+<br>
+
+<button onclick="readOrder()">What is my Order?</button>
+
+<script>
+let orderList = [];
+
+function addProduct(name, quantity) {
+  orderList.push({ product: name, quantity: quantity });
+}
+
+function showOrder() {
+  let orderDisplay = document.getElementById("orderDisplay");
+  orderDisplay.innerHTML = "<h3>Your Order:</h3>";
+
+  let table = document.createElement("table");
+  let headerRow = table.insertRow();
+  headerRow.insertCell().textContent = "Product";
+  headerRow.insertCell().textContent = "Quantity";
+
+  for (let item of orderList) {
+    let row = table.insertRow();
+    row.insertCell().textContent = item.product;
+    row.insertCell().textContent = item.quantity;
+  }
+
+  orderDisplay.appendChild(table);
+}
+
+function readOrder() {
+  let orderText = "Your order is: ";
+  for (let item of orderList) {
+    orderText += item.quantity + " " + item.product + ", ";
+  }
+  orderText = orderText.slice(0, -2) + ".";
+
+  // Use text-to-speech API here to read out orderText
+  // Example using SpeechSynthesisUtterance (check browser compatibility):
+  let utterance = new SpeechSynthesisUtterance(orderText);
+  window.speechSynthesis.speak(utterance);
+}
+</script>
+
+</body>
+</html>
